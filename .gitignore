@@ -4,7 +4,6 @@
 azure.err
 iisnode.yml
 node_modules
-**/dist
 public/lib
 app/db/*
 
