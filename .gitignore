@@ -6,6 +6,7 @@ iisnode.yml
 node_modules
 public/lib
 db/*
+server-config.js
 
 
 # Icon must ends with two \r.

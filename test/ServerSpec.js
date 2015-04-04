@@ -2,8 +2,8 @@ var request = require('supertest');
 var express = require('express');
 var expect = require('chai').expect;
 var app = require('../server-config.js');
+var Q = require('q');
 
-var db = require('../app/config');
 var User = require('../app/models/user');
 var Link = require('../app/models/link');
 
@@ -208,10 +208,12 @@ describe('', function() {
   describe('Account Login:', function(){
 
     beforeEach(function(done) {
-      new User({
-          'username': 'Phillip',
-          'password': 'Phillip'
-      }).save(function(){
+      var create = Q.nbind(User.create, User);
+      var newUser = {
+        username: 'Phillip',
+        password: 'Phillip'
+      };
+      create(newUser).then(function(){
         done();
       });
     });
