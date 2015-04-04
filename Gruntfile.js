@@ -2,7 +2,28 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      options: {
+        separator: ';'
+      },
+      // distServer: {
+      //   src: ['lib/*.js',
+      //         'app/**/*.js',
+      //          '*.js',
+      //          '!Gruntfile.js'
+      //   ],
+      //   dest: 'dist/builtServer.js'
+      //}
+      distClient:{
+        src: ['public/client/*.js'
+        ],
+        dest:'public/dist/shortly-express.js'
+      },
+       distLib:{
+        src: ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
+        dest:'public/dist/libraries.js'
+      }
     },
 
     mochaTest: {
@@ -21,12 +42,22 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options:{},
+      my_target: {
+        files: {
+          // 'dist/uglyClient.js': ['dist/builtClient.js'],
+          'public/dist/shortly-express.min.js' :['public/dist/shortly-express.js'],
+          'public/dist/libraries.min.js' :['public/dist/libraries.js']
+        }
+      }
     },
 
     jshint: {
-      files: [
+      files: {
         // Add filespec list here
-      ],
+        src: ['public/client/*.js']
+
+      },
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
@@ -38,6 +69,14 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      add_banner: {
+        options: {
+          banner: '/* This ugly file makes your HTML pretty! YOUR AD HERE */'
+        },
+        files: {
+          'public/lib/style.min.css': ['public/style.css']
+        }
+      }
     },
 
     watch: {
@@ -94,18 +133,29 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'jshint',
+    'concat',
+    'uglify',
+    'cssmin',
+    'test'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
-      // add your production server task here
+      // add your production server task here TODO
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
   grunt.registerTask('deploy', [
+    'build',
+    'upload'
     // add your deploy tasks here
+    //build
+    //test
+    //if test fail, stop
+    //deploy
   ]);
 
 
