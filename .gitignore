@@ -5,9 +5,10 @@ azure.err
 iisnode.yml
 node_modules
 public/lib
+public/dist/libraries.js
+public/dist/shortly-express.js
+public/dist/shortly-express.min.js
 db/*
-server-config.js
-
 
 # Icon must ends with two \r.
 Icon

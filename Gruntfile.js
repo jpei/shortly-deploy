@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         ],
         dest:'public/dist/shortly-express.js'
       },
-       distLib:{
+      distLib:{
         src: ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
         dest:'public/dist/libraries.js'
       }
@@ -43,10 +43,14 @@ module.exports = function(grunt) {
 
     uglify: {
       options:{},
-      my_target: {
+      distClient: {
         files: {
           // 'dist/uglyClient.js': ['dist/builtClient.js'],
           'public/dist/shortly-express.min.js' :['public/dist/shortly-express.js'],
+        }
+      },
+      distLib: {
+        files: {
           'public/dist/libraries.min.js' :['public/dist/libraries.js']
         }
       }
@@ -140,9 +144,19 @@ module.exports = function(grunt) {
     'test'
   ]);
 
+  grunt.registerTask('server-build', [
+    'jshint',
+    'concat:distClient',
+    'uglify:distClient',
+    'cssmin'
+  ]);
+
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
+
       // add your production server task here TODO
+
+
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
